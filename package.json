@@ -1,0 +1,26 @@
+{
+  "name": "kibana-backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Waziup/kibana-backend.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Waziup/kibana-backend/issues"
+  },
+  "homepage": "https://github.com/Waziup/kibana-backend#readme",
+  "dependencies": {
+    "cors": "^2.8.4",
+    "express": "^4.16.2",
+    "express-session": "^1.15.6",
+    "http-proxy": "^1.16.2",
+    "keycloak-connect": "^3.4.0"
+  }
+}
