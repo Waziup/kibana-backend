@@ -3,7 +3,7 @@ Kibana Backend
 
 
 This is a component of the Waziup platform.
-It's role is to authenticate the users accessing Kibana.
+Its role is to authenticate the users accessing Kibana.
 Furthermore it provides access control on the resources provided to Kibana.
 
 Usage
