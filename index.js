@@ -14,10 +14,6 @@ var apiProxy = httpProxy.createProxyServer()
 const app = express();
 const router = express.Router();
 
-//use body parser (to decode the body in the request)
-app.use(bodyParser.json());
-app.use(bodyParser.text());
-
 //Log every API call 
 router.use(function(req, res, next) {
     console.log('%s URI: %s PATH: %s', req.method, req.url, req.path);
@@ -41,10 +37,8 @@ const keycloak = new Keycloak({store: memoryStore},
     serverUrl: config.keycloakUrl,
     realm:     config.keycloakRealm,
     clientId:  config.keycloakClientId,
-    logoutUrl: config.kibanaUrl + '/kibana/app/kibana',
     public: true,
     bearerOnly: false
-
 });
 console.log('keyc:' + JSON.stringify(keycloak))
 
@@ -53,16 +47,20 @@ app.use(keycloak.middleware({
     admin: '/'
 }));
 
-//install routes
-app.all("/kibana/*", keycloak.protect(), function(req, res){
-  console.log(req.method + ' : ' + req.url);
-  req.url = req.url.replace('/kibana','');
-  apiProxy.web(req, res, { target: config.kibanaUrl });
-});
+console.log(JSON.stringify(keycloak))
 
-//app.all("/*", function(req, res){ 
-//  apiProxy.web(req, res, { target: config.elasticsearchUrl });
-//});
+//install routes
+app.all("/*", keycloak.protect(), function(req, res){
+  console.log(req.method + ' : ' + req.url);
+  console.log('kibanaUrl: ' + config.kibanaUrl);
+  //req.url = req.url.replace('/kibana','');
+  apiProxy.web(req, res, { target: config.kibanaUrl });
+  apiProxy.on('error', function(e) { 
+    console.log('Error: ' + e);
+     
+  });
+  console.log('after');
+});
 
 async function run() {
     await app.listen(config.port);
